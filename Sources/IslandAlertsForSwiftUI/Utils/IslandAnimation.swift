@@ -9,12 +9,12 @@ import Foundation
 import SwiftUI
 
 public struct IslandAnimation: ViewModifier {
-    
+    @Environment(\.layoutDirection) var direction
     @Binding var isPresented: Bool
     
     public func body(content: Content) -> some View {
         content
-            .scaleEffect(isPresented ? 1 : 0, anchor: .topLeading)
+            .scaleEffect(isPresented ? 1 : 0, anchor: (direction == .leftToRight) ?  .topLeading: .topTrailing)
             .blur(radius: isPresented ? 0: 10)
     }
 }

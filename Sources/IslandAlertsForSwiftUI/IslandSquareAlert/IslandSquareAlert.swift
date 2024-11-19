@@ -22,11 +22,20 @@ public struct IslandSquareAlert: ViewModifier {
                     if isPresented {
                         
                         Group {
-                            Image(systemName: self.systemIcon)
-                                .font(.system(size: 40))
-                                .symbolRenderingMode(.multicolor)
-                                .padding(.horizontal, 20)
-                                .padding(.top, 40)
+                            if #available(iOS 18.0, *) {
+                                Image(systemName: self.systemIcon)
+                                    .font(.system(size: 40))
+                                    .symbolRenderingMode(.multicolor)
+                                    .symbolEffect(.wiggle)
+                                    .padding(.horizontal, 20)
+                                    .padding(.top, 40)
+                            } else {
+                                Image(systemName: self.systemIcon)
+                                    .font(.system(size: 40))
+                                    .symbolRenderingMode(.multicolor)
+                                    .padding(.horizontal, 20)
+                                    .padding(.top, 40)
+                            }
                             
                             Text(text).font(.headline)
                                 .foregroundColor(.white)

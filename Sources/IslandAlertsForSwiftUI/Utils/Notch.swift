@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftUI
-
+@MainActor
 private class Notch {
     
     private init() {}
@@ -25,7 +25,7 @@ private class Notch {
         @Binding var isPresented: Bool
         func body(content: Content) -> some View {
             content
-                .frame(width: isPresented ? UIScreen.main.bounds.width : Notch.width-3, height: isPresented ? 210:30)
+                .frame(width: isPresented ? UIScreen.main.bounds.width : Notch.width-3, height: isPresented ? 210:0)
         }
     }
     
@@ -33,9 +33,18 @@ private class Notch {
         @Binding var isPresented: Bool
         func body(content: Content) -> some View {
             content
-                .frame(width: isPresented ? Notch.width : Notch.width-2, height: isPresented ? 150:28)
+                .frame(width: isPresented ? Notch.width : Notch.width-2, height: isPresented ? 150:0)
         }
     }
+    
+    struct NotchedRectangleShape: ViewModifier {
+        @Binding var isPresented: Bool
+        func body(content: Content) -> some View {
+            content
+                .frame(width: isPresented ? Notch.width + 74 : Notch.width, height: isPresented ? 150:0)
+        }
+    }
+    
 }
 
 extension View {
@@ -44,5 +53,8 @@ extension View {
     }
     func notchMediumFrame(isPresented: Binding<Bool>) -> some View {
         ModifiedContent(content: self, modifier: Notch.NotchMediumFrame(isPresented: isPresented))
+    }
+    func notchedRectangleShape(isPresented: Binding<Bool>) -> some View {
+        ModifiedContent(content: self, modifier: Notch.NotchedRectangleShape(isPresented: isPresented))
     }
 }

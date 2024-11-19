@@ -44,6 +44,12 @@ struct NotchMediumAlert: ViewModifier {
                 }
                 .islandAnimation(isPresented: $isPresented)
                 .notchMediumFrame(isPresented: $isPresented)
+                .background(NotchedRectangleShape()
+                    .notchedRectangleShape(isPresented: $isPresented)
+                    .foregroundColor(Color.black)
+                    .cornerRadius(isPresented ? 20:30, corners: [.bottomLeft, .bottomRight])
+//                    .padding(.bottom, isPresented ? 10:0)
+                            )
                 .background(Rectangle()
                     .notchMediumFrame(isPresented: $isPresented)
                     .foregroundColor(Color.black)
@@ -75,5 +81,23 @@ struct NotchMediumAlertDebug_Previews: PreviewProvider {
     static var previews: some View {
         NotchMediumAlertExample()
             .previewDevice(PreviewDevice(rawValue: "iPhone 12 Pro"))
+    }
+}
+struct NotchedRectangleShape: Shape {
+    func path(in rect: CGRect) -> Path {
+      Path { path in
+          let width = rect.width
+          path.move(to: CGPoint(x: width  , y: 0))
+          path.addLine(to: CGPoint(x: width, y: 0))
+          path.addLine(to: CGPoint(x: 0, y: 0))
+          path.addCurve(to: CGPoint(x: 37, y: 37),
+                              control1: CGPoint(x: 20, y: 0),
+                              control2: CGPoint(x: 37, y: 16))
+          path.addLine(to: CGPoint(x: width - 37, y: 37))
+          path.addCurve(to: CGPoint(x: width, y: 0),
+                              control1: CGPoint(x: width - 37, y: 16),
+                              control2: CGPoint(x: width - 20, y: 0))
+          path.closeSubpath()
+      }
     }
 }
